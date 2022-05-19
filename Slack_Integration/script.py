@@ -24,7 +24,7 @@ def customizer():
     return bot_name, emoji_id, hex_number
 
 if __name__ == '__main__':
-    url = "https://hooks.slack.com/services/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"
+    url = "https://hooks.slack.com/services/qweqwe/qweqwe/qweqwe"
     bot_name, emoji_id, hex_number = customizer()
     message = ("A Sample Message")
     title = (f"New Incoming Message {emoji_id}")
