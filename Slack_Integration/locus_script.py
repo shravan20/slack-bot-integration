@@ -5,8 +5,8 @@ import requests
 from datetime import date, datetime
 
 
-employees_url = 'db_bamboo_url'
-slack_hook_url = "hook_url"
+employees_url = ''
+slack_hook_url = ''
 employee_data = []
 
 
@@ -43,26 +43,13 @@ def wishHappyBirthday(slack_hook_url, customizer, name, wishes):
     
     message = random.choice(wishes['bday']['message'])
     emoji = random.choice(wishes['bday']['emoji'])
-
-   
+    wish = message + " " + name + " " + emoji
     
-    slack_data = {
-        "username": bot_name,
-        "icon_emoji": emoji_id,
-        "channel": "#slack-test",
-        "attachments": [
-            {
-                "color": hex_number,
-                "fields": [
-                    {
-                        "title": title,
-                        "value": message + " " + name + " " + emoji,
-                        "short": "false",
-                    }
-                ]
-            }
-        ]
-    }
+    '''
+    Data Preparation for creating custom wishes
+    '''
+    slack_data = createWish(wish)
+    
     byte_length = str(sys.getsizeof(slack_data))
     headers = {'Content-Type': "application/json", 'Content-Length': byte_length}
     response = requests.post(url, data=json.dumps(slack_data), headers=headers)
@@ -71,6 +58,28 @@ def wishHappyBirthday(slack_hook_url, customizer, name, wishes):
         raise Exception(response.status_code, response.text)
     else:
         print("Birthday wishes successfully!!!")
+
+def createWish(wish):
+    return {
+	"blocks": [
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": wish
+			}
+		},
+		{
+			"type": "image",
+			"title": {
+				"type": "plain_text",
+				"text": "Bday Image"
+			},
+			"image_url": "https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5ehu8kafdo3g0313ul03.jpeg",
+			"alt_text": "Birthday Wishes"
+		}
+	]
+    }
 
 if __name__ == '__main__':
     
