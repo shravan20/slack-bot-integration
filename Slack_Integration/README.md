@@ -15,5 +15,5 @@ Save it
 
 4. Now to run the script:
 ```
-python script.py
+python locus_script.py
 ```
